@@ -20,5 +20,8 @@
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
     "passport-google-oauth20": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
