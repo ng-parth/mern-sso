@@ -1,22 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const passport = require("passport");
 const authRoute = require("./routes/auth");
-const cookieSession = require("cookie-session");
-const passportStrategy = require("./passport");
+const passportMiddleware = require("./passport");
+const connectDB = require('./configs/db')
 const app = express();
 
-app.use(
-	cookieSession({
-		name: "session",
-		keys: ["cyberwolve"],
-		maxAge: 24 * 60 * 60 * 100,
-	})
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+passportMiddleware.initialize(app);
+connectDB().then();
 
 app.use(
 	cors({
@@ -26,7 +17,12 @@ app.use(
 	})
 );
 
-app.use("/auth", authRoute);
+app.use("/auth", (req, res, next) => {
+	console.log('auth req-url: ', req.method, req.url );
+	console.log('auth req-body: ', req.body);
+	// console.log('auth res: ', res);
+	next();
+}, authRoute);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listenting on port ${port}...`));

@@ -5,7 +5,7 @@ router.get("/login/success", (req, res) => {
 	if (req.user) {
 		res.status(200).json({
 			error: false,
-			message: "Successfully Loged In",
+			message: "Successfully Logged In",
 			user: req.user,
 		});
 	} else {
@@ -19,8 +19,6 @@ router.get("/login/failed", (req, res) => {
 		message: "Log in failure",
 	});
 });
-
-router.get("/google", passport.authenticate("google", ["profile", "email"]));
 
 router.get(
 	"/google/callback",
